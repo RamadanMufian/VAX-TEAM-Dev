@@ -1,5 +1,5 @@
 
-# AI Text-to-Video Generator (LTX-Video)
+# AI Text-to-Video Generator (Ref by LTX-Video)
 
 This system is an AI-based Text-to-Video web application specifically designed to run locally on PCs/Laptops with limited VRAM (such as Nvidia RTX 3050 4GB).
 
