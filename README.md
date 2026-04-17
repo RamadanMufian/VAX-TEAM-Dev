@@ -1,32 +1,32 @@
-<<<<<<< HEAD
+
 # AI Text-to-Video Generator (LTX-Video)
 
-Sistem ini adalah **aplikasi web Text-to-Video berbasis AI** yang dirancang secara khusus untuk dapat dijalankan secara lokal pada PC/Laptop dengan spesifikasi **VRAM terbatas (seperti Nvidia RTX 3050 4GB)**.
+This system is an AI-based Text-to-Video web application specifically designed to run locally on PCs/Laptops with limited VRAM (such as Nvidia RTX 3050 4GB).
 
-Aplikasi ini menggunakan model **LTX-Video (Lightricks 2B)** yang berjalan di atas framework **FastAPI** (Backend) dan **Vanilla HTML/CSS/JS** (Frontend).
+This application uses the **LTX-Video (Lightricks 2B)** model which runs on top of the **FastAPI** (Backend) and **Vanilla HTML/CSS/JS** (Frontend) frameworks.
 
-## Fitur Utama
-- 🚀 **Optimasi VRAM (4GB)**: Menggunakan CPU Offloading, VAE Slicing, VAE Tiling, dan tipe data `bfloat16` agar model dapat berjalan tanpa Out of Memory (OOM).
-- 🎬 **Text-to-Video**: Mampu menghasilkan video berdurasi singkat (~1 detik / 25 frame) pada resolusi 320x240 dengan inferensi cepat.
-- 💻 **Web Dashboard**: Antarmuka pengguna (UI) lokal yang intuitif untuk memasukkan prompt dan memonitor status generasi video secara real-time.
-- 🛠️ **Server Lokal**: Berjalan 100% offline secara lokal setelah model berhasil diunduh.
-- 📦 **Automated Scripts**: Dilengkapi dengan berbagai script `.bat` siap pakai untuk Windows (`setup.bat`, `start_server.bat`, `download_model.bat`).
-
-## Struktur Proyek
+## Feature
+- *VRAM Optimization (4GB)**: Uses CPU Offloading, VAE Slicing, VAE Tiling, and the `bfloat16` data type to enable the model to run without Out of Memory (OOM).
+- **Text-to-Video**: Capable of generating short videos (~1 second / 25 frames) at 320x240 resolution with fast inference.
+- **Web Dashboard**: An intuitive local user interface (UI) for entering prompts and monitoring video generation status in real-time.
+- **Local Server**: Runs 100% offline locally after the model is successfully downloaded.
+- **Automated Scripts**: Comes with various ready-to-use `.bat` scripts for Windows (`setup.bat`, `start_server.bat`, `download_model.bat`).
+  
+## Project Structure
 ```text
-📦 model baru
- ┣ 📂 backend/         # Logika server FastAPI & Text-to-Video pipeline
- ┣ 📂 frontend/        # Web dashboard (UI)
- ┣ 📂 models/          # Tempat cache untuk model HuggingFace
- ┣ 📂 outputs/         # Hasil video yang dihasilkan (.mp4)
- ┣ 📂 venv/            # Python virtual environment (terbuat saat instalasi)
- ┣ 📜 .env             # Konfigurasi variabel lingkungan lokal
- ┣ 📜 INSTALL_GUIDE.txt# Instruksi instalasi manual lengkap
- ┣ 📜 download_model.bat # Script untuk mendownload model manual (jika butuh)
- ┣ 📜 requirements.txt # Daftar dependensi Python
- ┣ 📜 setup.bat        # Script untuk setup awal otomatis
- ┣ 📜 start_server.bat # Script untuk menyalakan web server & frontend
- ┗ 📜 test_gpu.py      # Script untuk cek penggunaan dan deteksi GPU
+📦 model 
+ ┣ 📂 backend/ # FastAPI server logic & Text-to-Video pipeline
+ ┣ 📂 frontend/ # Web dashboard (UI)
+ ┣ 📂 models/ # Cache for HuggingFace models
+ ┣ 📂 outputs/ # Generated video outputs (.mp4)
+ ┣ 📂 venv/ # Python virtual environment (created during installation)
+ ┣ 📜 .env # Configure local environment variables
+ ┣ 📜 INSTALL_GUIDE.txt # Complete manual installation instructions
+ ┣ 📜 download_model.bat # Script to download the model manually (if needed)
+ ┣ 📜 requirements.txt # List of Python dependencies
+ ┣ 📜 setup.bat # Script for automatic initial setup
+ ┣ 📜 start_server.bat # Script to start the web server & frontend
+ ┗ 📜 test_gpu.py # Script to check GPU usage and detect
 ```
 
 ## Troubleshooting & Tips for 4GB VRAM (Continued)
