@@ -16,7 +16,7 @@ This application uses the **LTX-Video (Lightricks 2B)** model which runs on top 
 ```text
 📦 model 
  ┣ 📂 backend/ # FastAPI server logic & Text-to-Video pipeline
- ┣ 📂 frontend/ # Web dashboard (UI)
+ ┣ 📂 view/ # Web dashboard (UI)
  ┣ 📂 models/ # Cache for HuggingFace models
  ┣ 📂 outputs/ # Generated video outputs (.mp4)
  ┣ 📂 venv/ # Python virtual environment (created during installation)
