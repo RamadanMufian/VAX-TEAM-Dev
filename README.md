@@ -107,5 +107,5 @@ NUM_INFERENCE_STEPS = 30
 >>>>>>> upstream/main
 =======
 ---
-*Created with ❤️ by Antigravity AI*
+*Created with Ramadan Mufian*
 >>>>>>> Stashed changes
