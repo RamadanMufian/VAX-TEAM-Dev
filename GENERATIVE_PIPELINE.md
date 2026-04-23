@@ -1,59 +1,59 @@
-# 🧠 Dokumentasi Pipeline AI Generatif (VAX-STUDIO)
+# 🧠 Generative AI Pipeline Documentation (VAX-STUDIO)
 
-Dokumen ini menjelaskan alur kerja sistem AI generatif yang digunakan dalam proyek VAX-STUDIO, yang membagi proses pembuatan video menjadi beberapa fungsi modular.
-
----
-
-## 🏗️ Arsitektur Sistem (Hybrid)
-Sistem ini menggunakan arsitektur **Hybrid**, di mana:
-1.  **Local Backend (PC Anda)**: Mengelola database, antarmuka pengguna (UI), dan mengatur urutan tugas (Orchestration).
-2.  **Cloud Engine (Google Colab)**: Menjalankan model AI yang berat (Stable Diffusion & SVD) menggunakan GPU T4 15GB.
+This document explains the generative AI workflow used in the VAX-STUDIO project, which divides the video creation process into modular functions.
 
 ---
 
-## 🛠️ Definisi Fungsi Utama
+## 🏗️ System Architecture (Hybrid)
+This system utilizes a **Hybrid** architecture:
+1.  **Local Backend (Your PC)**: Manages the database, user interface (UI), and task sequencing (Orchestration).
+2.  **Cloud Engine (Google Colab)**: Runs heavy AI models (Stable Diffusion & SVD) using a Tesla T4 GPU (15GB).
 
-Berikut adalah penjelasan tiga fungsi utama yang membangun pipeline ini:
+---
+
+## 🛠️ Key Function Definitions
+
+Here are the three primary functions that build this pipeline:
 
 ### 1. `def text_to_image`
-**Peran**: Mengubah instruksi teks menjadi gambar statis.
+**Role**: Converts text instructions into a static image.
 - **Model**: Stable Diffusion v1.5.
-- **Input**: `prompt` (deskripsi teks), `seed` (angka acak untuk variasi).
-- **Output**: File gambar `.png` (Resolusi 1024x576).
-- **Lokasi Eksekusi**: Google Colab (Engine).
-- **Kegunaan**: Tahap awal untuk menentukan komposisi visual sebelum dianimasikan.
+- **Input**: `prompt` (text description), `seed` (random number for variation).
+- **Output**: `.png` image file (Resolution: 1024x576).
+- **Execution Location**: Google Colab (Engine).
+- **Purpose**: The initial stage to establish visual composition before animation.
 
 ### 2. `def image_to_video`
-**Peran**: Memberikan gerakan (animasi) pada gambar statis.
+**Role**: Adds motion (animation) to a static image.
 - **Model**: Stable Video Diffusion (SVD) XT.
-- **Input**: `image` (hasil dari tahap 1 atau upload), `duration` (2s - 10s), `motion_bucket`.
-- **Output**: File video `.mp4` (25 FPS).
-- **Lokasi Eksekusi**: Google Colab (Engine).
-- **Kegunaan**: Mengubah aset visual diam menjadi konten sinematik yang dinamis.
+- **Input**: `image` (result from Stage 1 or manual upload), `duration` (2s - 10s), `motion_bucket`.
+- **Output**: `.mp4` video file (25 FPS).
+- **Execution Location**: Google Colab (Engine).
+- **Purpose**: Transforms static visual assets into dynamic, cinematic content.
 
 ### 3. `def generate_output`
-**Peran**: Pengendali utama (Orchestrator) yang menggabungkan seluruh pipeline.
-- **Alur Kerja**: 
-    1. Memanggil `text_to_image` untuk mendapatkan base visual.
-    2. Mengambil hasil gambar tersebut dan langsung mengirimkannya ke `image_to_video`.
-    3. Menyimpan hasil akhir video ke dalam database dan folder `outputs/`.
-- **Lokasi Eksekusi**: Local Backend (`ai_service.py`).
-- **Kegunaan**: Digunakan untuk fitur "Quick Generate" di mana pengguna hanya memasukkan prompt teks dan ingin langsung mendapatkan hasil video akhir.
+**Role**: The main Orchestrator that combines the entire pipeline.
+- **Workflow**: 
+    1. Calls `text_to_image` to generate the base visual.
+    2. Takes the resulting image and immediately sends it to `image_to_video`.
+    3. Saves the final video to the database and the `outputs/` folder.
+- **Execution Location**: Local Backend (`ai_service.py`).
+- **Purpose**: Used for the "Quick Generate" feature where users enter a text prompt and receive a final video directly.
 
 ---
 
-## 🔄 Alur Kerja User (Workflow)
+## 🔄 User Workflow
 
 ```mermaid
 graph TD
-    A[User Input: Prompt] --> B{Fungsi 1: text_to_image}
-    B -->|Hasil Gambar| C[Preview di UI]
-    C -->|User Klik Animate| D{Fungsi 2: image_to_video}
-    D -->|Hasil Video| E[Download & Simpan]
+    A[User Input: Prompt] --> B{Step 1: text_to_image}
+    B -->|Image Result| C[UI Preview]
+    C -->|User Clicks Animate| D{Step 2: image_to_video}
+    D -->|Video Result| E[Download & Save]
     
-    A -.->|Opsi Quick Generate| F{Fungsi 3: generate_output}
+    A -.->|Quick Generate Option| F{Step 3: generate_output}
     F --> E
 ```
 
 ---
-*Dokumentasi ini dibuat untuk memudahkan pemahaman struktur teknis VAX-STUDIO.*
+*This documentation is created to help understand the technical structure of VAX-STUDIO.*
