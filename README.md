@@ -1,4 +1,4 @@
-# 🎬 VAX STUDIO v3.4 — Hybrid AI Video Generation
+# 🎬 VAX STUDIO v1.3 — Hybrid AI Video Generation
 ![VAX STUDIO Banner](https://img.shields.io/badge/VAX%20STUDIO-v3.4-blueviolet?style=for-the-badge&logo=ai)
 ![Architecture](https://img.shields.io/badge/Architecture-Hybrid%20MVC-cyan?style=for-the-badge)
 
