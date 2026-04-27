@@ -6,7 +6,7 @@
 
 ---
 
-## ✨ New in v3.4 (Latest Updates)
+## ✨ New in v1.3 (Latest Updates)
 - **📊 Technical Metadata**: Results now display `Steps`, `CFG Scale`, `Seed`, and `Resolution`.
 - **🎞️ Scrollable Gallery**: Enhanced "Recent Generations" with a modern horizontal scroll layout and technical tags.
 - **🚀 Optimized Presets**: New resolution presets (16:9, 9:16, 3:2) optimized for T4 VRAM efficiency.
