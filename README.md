@@ -1,5 +1,5 @@
 # 🎬 VAX STUDIO v1.3 — Hybrid AI Video Generation
-![VAX STUDIO Banner](https://img.shields.io/badge/VAX%20STUDIO-v3.4-blueviolet?style=for-the-badge&logo=ai)
+![VAX STUDIO Banner](https://img.shields.io/badge/VAX%20STUDIO-v1.3-blueviolet?style=for-the-badge&logo=ai)
 ![Architecture](https://img.shields.io/badge/Architecture-Hybrid%20MVC-cyan?style=for-the-badge)
 
 **VAX STUDIO** is a high-performance, hybrid AI video generation system. It combines a local **FastAPI MVC Controller** with a cloud-based **Google Colab GPU Engine** to provide a seamless studio experience on local hardware.
