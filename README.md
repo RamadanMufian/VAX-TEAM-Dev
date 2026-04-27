@@ -1,38 +1,28 @@
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-# AI Text-to-Video Generator (LTX-Video)
-=======
-# 🎬 VAX-STUDIO: Hybrid AI Video Generation Pipeline
->>>>>>> Stashed changes
+# 🎬 VAX STUDIO v3.4 — Hybrid AI Video Generation
+![VAX STUDIO Banner](https://img.shields.io/badge/VAX%20STUDIO-v3.4-blueviolet?style=for-the-badge&logo=ai)
+![Architecture](https://img.shields.io/badge/Architecture-Hybrid%20MVC-cyan?style=for-the-badge)
 
-**VAX-STUDIO** is a high-performance, hybrid AI video generation system that combines a local **FastAPI MVC Controller** with a cloud-based **Google Colab GPU Engine**. It allows users to generate high-quality AI images and animate them into cinematic videos (up to 10 seconds) using cutting-edge models like Stable Diffusion and Stable Video Diffusion.
+**VAX STUDIO** is a high-performance, hybrid AI video generation system. It combines a local **FastAPI MVC Controller** with a cloud-based **Google Colab GPU Engine** to provide a seamless studio experience on local hardware.
 
 ---
 
-## ✨ Key Features
-
-- **🚀 Split-Pipeline Architecture**: Separate Text-to-Image (T2I) and Image-to-Video (I2V) workflows for maximum creative control.
-- **☁️ Cloud-Powered Rendering**: Offloads heavy GPU computations to Google Colab, keeping your local machine light and cool.
-- **📊 Real-Time Progress Tracking**: Visual progress bars show generation percentage in real-time.
-- **⏱️ Dynamic Duration**: Control video length from 2s up to 10s directly from the UI.
-- **🎨 Premium UI/UX**: Modern, glassmorphic frontend with dark mode and smooth animations.
-- **🗄️ MVC Backend**: Structured FastAPI backend with MySQL database integration for job management.
+## ✨ New in v3.4 (Latest Updates)
+- **📊 Technical Metadata**: Results now display `Steps`, `CFG Scale`, `Seed`, and `Resolution`.
+- **🎞️ Scrollable Gallery**: Enhanced "Recent Generations" with a modern horizontal scroll layout and technical tags.
+- **🚀 Optimized Presets**: New resolution presets (16:9, 9:16, 3:2) optimized for T4 VRAM efficiency.
+- **📁 Modular Architecture**: Moved Colab Engine logic to `app/model/` for better maintainability.
 
 ---
 
-## 🛠️ Technology Stack
+## 🏗️ System Architecture
+The system utilizes a split-pipeline strategy to handle VRAM-intensive tasks:
 
-| Component | Technology |
-| :--- | :--- |
-| **Local Backend** | Python, FastAPI, SQLAlchemy (Async), MySQL |
-| **Cloud Engine** | Google Colab (Tesla T4 GPU), Diffusers, PyTorch |
-| **Frontend** | HTML5, CSS3 (Vanilla), JavaScript (ES6+), FontAwesome |
-| **Communication** | Ngrok (Secure Tunneling), Aiohttp |
-| **AI Models** | Stable Diffusion v1.5, Stable Video Diffusion XT |
-
----
-
-## 🏗️ Architecture Overview
+1.  **Local Backend (PC)**:
+    *   **Technology**: FastAPI, SQLAlchemy, MySQL.
+    *   **Role**: Job management, Database persistence, UI rendering, and Ngrok orchestration.
+2.  **Cloud Engine (Google Colab)**:
+    *   **Technology**: PyTorch, Diffusers (SD 1.5, SVD-XT, CogVideoX-5B).
+    *   **Role**: Heavy GPU lifting, Image synthesis, and Video rendering.
 
 ```mermaid
 graph LR
@@ -40,72 +30,53 @@ graph LR
     Frontend -->|API Request| LocalAPI[Local FastAPI Controller]
     LocalAPI -->|Save Job| DB[(MySQL Database)]
     LocalAPI -->|Forward Task| Tunnel{Ngrok Tunnel}
-    Tunnel -->|Execute| Colab[Google Colab GPU Engine]
-    Colab -->|Status/Progress| LocalAPI
-    Colab -->|Download| LocalAPI
+    Tunnel -->|Execute AI| Colab[Google Colab GPU Engine]
+    Colab -->|Progress Status| LocalAPI
+    Colab -->|Download Asset| LocalAPI
     LocalAPI -->|Serve Results| Frontend
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Installation & Setup
 
-### 1. Local Setup
-1.  **Clone the Repository**:
+### 1. Local Configuration
+1.  **Clone & Install**:
     ```bash
     git clone https://github.com/RamadanMufian/VAX-TEAM-Dev.git
     cd VAX-TEAM-Dev
+    setup.bat
     ```
-2.  **Environment Variables**:
-    Edit the `.env` file and set your `HF_TOKEN`, `DB_URL`, and `NGROK_TOKEN`.
-3.  **Run the Server**:
-    Execute the startup script:
+2.  **Environment**: Update `.env` with your `NGROK_TOKEN` and `DB_URL`.
+3.  **Start Server**:
     ```bash
     start_server.bat
     ```
 
-### 2. Google Colab Setup
-1.  Open the provided notebook link in Google Colab.
-2.  Paste the latest **VAX Engine v2.6** code into a cell.
-3.  Run the cell and wait for the `🚀 ENGINE READY! URL: https://xxxx.ngrok-free.app` message.
-4.  Copy that URL and update the `COLAB_API_URL` in your local `.env` file.
+### 2. Colab Engine Setup
+1.  Open the VAX Engine script in Google Colab.
+2.  Run the initialization cell and copy the generated Ngrok URL.
+3.  Update `COLAB_API_URL` in your local `.env`.
 
 ---
 
-## 📖 Usage Guide
+## 📖 Generative Pipeline
 
-1.  **Step 1 (Generate Image)**: Enter a detailed prompt (e.g., *"Cinematic cat running in a meadow"*) and click **Generate Image**.
-2.  **Preview**: Once the image appears, you can proceed to the next step or upload your own image.
-3.  **Step 2 (Animate)**: Set your desired duration (up to 10s) and click **Animate This Image!**.
-4.  **Download**: The video will appear in the UI and be saved automatically in the `outputs/` folder.
+### Stage 1: Text to Image (T2I)
+*   **Model**: Stable Diffusion v1.5.
+*   **Input**: Prompt, Negative Prompt, Resolution, CFG Scale, Steps.
+*   **Output**: High-quality PNG asset.
 
----
-
-## 🔧 Troubleshooting
-
-- **404 Not Found**: Ensure the Colab URL in `.env` matches the current Ngrok URL.
-- **CUDA OOM**: If Colab crashes, reduce the video duration or restart the Colab kernel.
-- **ImportError**: Ensure you are running the project within the `.venv` virtual environment.
+### Stage 2: Image to Video (I2V)
+*   **Model**: SVD-XT or CogVideoX-5B.
+*   **Input**: Source Image, Motion Bucket (SVD), Video Prompt (Cog), Duration.
+*   **Output**: Cinematic MP4 video with optional audio muxing.
 
 ---
 
-## 📜 License
-This project is developed for **VAX-TEAM** developers. All rights reserved.
+## 📜 Credits & License
+Developed by **VAX TEAM**. 
+Lead Developer: **Ramadan Mufian**
 
-<<<<<<< Updated upstream
-# VRAM optimization flags
-CPU_OFFLOAD = True
-VAE_SLICING = True
-VAE_TILING = True
-USE_BFLOAT16 = True
-
-# Generation settings
-GUIDANCE_SCALE = 7.5
-NUM_INFERENCE_STEPS = 30
-=======
-# VAX-TEAM-Dev
->>>>>>> upstream/main
-=======
 ---
-*Created with Ramadan Mufian*
->>>>>>> Stashed changes
+*Created with ❤️ for the VAX AI Community*
