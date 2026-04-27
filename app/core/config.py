@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     
     # Base Directories
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
-    OUTPUT_DIR: Path = BASE_DIR / "outputs"
+    OUTPUT_DIR: Path = BASE_DIR / "app" / "model" / "outputs"
     VIEW_DIR: Path = BASE_DIR / "app" / "view"
     
     # HuggingFace & PyTorch
@@ -26,21 +26,12 @@ class Settings(BaseSettings):
     # Database Settings
     DB_URL: str = "mysql+aiomysql://root:@localhost:3306/vax_dev"
     
-    # Model Settings (LTX Video 2B - VRAM 4GB)
-    MODEL_ID: str = "Lightricks/LTX-Video"
+    # Model Settings
     MODEL_CACHE_DIR: Path = BASE_DIR / "models"
-    DEVICE: str = "cuda"
-    DTYPE: str = "bfloat16"
-    ENABLE_CPU_OFFLOAD: bool = True
-    ENABLE_VAE_SLICING: bool = True
-    ENABLE_VAE_TILING: bool = True
     
     # Default Video Settings
     DEFAULT_WIDTH: int = 320
     DEFAULT_HEIGHT: int = 240
-    DEFAULT_NUM_FRAMES: int = 25
-    DEFAULT_FPS: int = 24
-    DEFAULT_STEPS: int = 20
     MAX_QUEUE_SIZE: int = 3
 
     class Config:

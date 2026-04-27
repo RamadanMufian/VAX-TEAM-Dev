@@ -11,3 +11,5 @@ python-multipart==0.0.9
 cryptography==42.0.7
 pillow==10.3.0
 greenlet==3.0.3
+psutil==5.9.8
+nvidia-ml-py3==7.352.0

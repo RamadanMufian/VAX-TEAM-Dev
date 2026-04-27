@@ -23,8 +23,8 @@ echo  [1/3] Mengaktifkan virtual environment...
 call .venv\Scripts\activate.bat
 
 :: Set VRAM optimization untuk 4GB
-echo  [2/3] Setting optimasi VRAM 4GB...y
-set PYTORCH_CUDA_ALLOC_CONF=max_splYit_size_mb:128
+echo  [2/3] Setting optimasi VRAM 4GB...
+set PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
 set HF_HUB_ENABLE_HF_TRANSFER=1
 
 :: Jalankan server
@@ -40,3 +40,5 @@ echo.
 python -m app.main
 
 pause
+
+ 

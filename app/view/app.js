@@ -93,7 +93,7 @@ async function checkServerStatus() {
     if (!badge || !statusText) return;
 
     try {
-        const res = await fetch(`${API_BASE}/health`, {
+        const res = await fetch(`${API_BASE}/model/status`, {
             signal: AbortSignal.timeout(5000)
         });
         const data = await res.json();
@@ -103,14 +103,14 @@ async function checkServerStatus() {
             const icon = badge.querySelector(".status-icon");
             if (icon) icon.textContent = "✅";
 
-            const gpu = data.gpu;
-            if (gpu && gpu.gpu_name) {
-                statusText.textContent = `Online · ${gpu.gpu_name}`;
-                if (document.getElementById("gpu-name")) document.getElementById("gpu-name").textContent = gpu.gpu_name;
-                if (document.getElementById("gpu-vram")) document.getElementById("gpu-vram").textContent = `${gpu.vram_free_gb} / ${gpu.vram_total_gb} GB`;
-                if (document.getElementById("model-status")) document.getElementById("model-status").textContent = data.model_loaded ? "✅ Di-load" : "⏸ Belum di-load";
-                if (document.getElementById("queue-size")) document.getElementById("queue-size").textContent = data.queue_size;
+            if (data.model_loaded) {
+                statusText.textContent = `Online · Colab Connected`;
+                if (document.getElementById("model-status")) document.getElementById("model-status").textContent = "✅ Connected";
                 if (gpuBar) gpuBar.style.display = "flex";
+            } else {
+                statusText.textContent = "Online · Waiting for Colab";
+                if (gpuBar) gpuBar.style.display = "none";
+            }
 
                 // Jika server sedang memproses sesuatu dan kita belum polling, sambungkan otomatis
                 if (data.active_job && !currentJobId) {
@@ -165,7 +165,7 @@ async function generateVideo() {
     if (document.getElementById("progress-text")) document.getElementById("progress-text").textContent = "Mengirim request ke server...";
 
     try {
-        const res = await fetch(`${API_BASE}/generate`, {
+        const res = await fetch(`${API_BASE}/jobs/generate_video`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody),
@@ -200,7 +200,7 @@ async function generateVideo() {
 function startPolling(jobId) {
     pollingInterval = setInterval(async () => {
         try {
-            const res = await fetch(`${API_BASE}/status/${jobId}`);
+            const res = await fetch(`${API_BASE}/jobs/status/${jobId}`);
             const data = await res.json();
 
             if (data.status === "done") {
@@ -345,7 +345,7 @@ async function loadGallery() {
     }
 
     try {
-        const res = await fetch(`${API_BASE}/videos`);
+        const res = await fetch(`${API_BASE}/jobs/videos`);
         const data = await res.json();
         const gallery = document.getElementById("gallery");
 
@@ -394,7 +394,7 @@ async function deleteVideo(filename) {
     if (!confirm(`Hapus video ${filename}?`)) return;
 
     try {
-        const res = await fetch(`${API_BASE}/videos/${filename}`, { method: "DELETE" });
+        const res = await fetch(`${API_BASE}/jobs/videos/${filename}`, { method: "DELETE" });
         if (res.ok) {
             const item = document.getElementById(`item-${filename}`);
             if (item) {

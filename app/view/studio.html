@@ -4,72 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio Flow - VAX Studio</title>
+    <title>Studio Flow - VAX Studio Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="layout.css">
     <style>
         body {
+            background: #030509;
             overflow: hidden;
-            /* Canvas style */
-            background: #0A0C15;
-        }
-
-        .navbar {
-            margin-bottom: 0 !important;
         }
 
         .studio-canvas {
             width: 100vw;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 80px);
             position: relative;
-            background-image:
-                radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
-            background-size: 40px 40px;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+            background-size: 50px 50px;
+            overflow: auto;
             display: flex;
-            align-items: flex-start; /* Start from top to allow vertical scroll */
+            align-items: flex-start;
             justify-content: flex-start;
-            padding: 80px 100px; /* More top padding for nodes */
-            overflow: auto; /* Enable both X and Y */
+            padding: 150px;
             scroll-behavior: smooth;
-        }
-
-        /* Custom Premium Scrollbar */
-        .studio-canvas::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        .studio-canvas::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-        }
-        .studio-canvas::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #4A4AFF, #FF4AFF);
-            border-radius: 10px;
-        }
-
-        .studio-canvas::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-        }
-
-        .studio-canvas::-webkit-scrollbar-thumb {
-            background: linear-gradient(90deg, #4A4AFF, #FF4AFF);
-            border-radius: 10px;
         }
 
         .node-container {
             display: flex;
             align-items: center;
-            gap: 80px;
+            gap: 120px;
             position: relative;
             z-index: 2;
-            min-width: max-content;
-            padding-right: 100px;
+        }
+
+        .input-nodes-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
         }
 
         /* SVG Connections */
@@ -77,18 +52,18 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 2500px;
+            height: 1500px;
             pointer-events: none;
             z-index: 1;
         }
 
         .connection-line {
-            stroke: rgba(160, 160, 255, 0.2);
+            stroke: rgba(139, 92, 246, 0.2);
             stroke-width: 2;
             fill: none;
-            stroke-dasharray: 5;
-            animation: dash 20s linear infinite;
+            stroke-dasharray: 8;
+            animation: dash 30s linear infinite;
         }
 
         @keyframes dash {
@@ -97,361 +72,299 @@
             }
         }
 
-        /* Node Cards */
+        /* Node Styling */
         .node-card {
-            background: rgba(30, 35, 55, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            width: 280px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            width: 320px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
 
         .node-card:hover {
+            border-color: var(--accent-purple);
             transform: translateY(-5px);
-            border-color: rgba(160, 160, 255, 0.4);
-            box-shadow: 0 30px 60px rgba(74, 74, 255, 0.2);
+            box-shadow: 0 35px 80px rgba(139, 92, 246, 0.2);
         }
 
         .node-header {
-            padding: 10px 15px;
+            padding: 14px 18px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.4);
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .node-header i {
+            color: var(--accent-purple);
         }
 
         .node-content {
-            padding: 15px;
+            padding: 20px;
         }
 
-        .node-image {
+        /* Multi Image Grid */
+        .image-assets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .asset-thumb {
             width: 100%;
             aspect-ratio: 1;
-            border-radius: 12px;
-            object-fit: cover;
-            background: #000;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .node-video {
-            width: 100%;
             border-radius: 8px;
-            background: #000;
-        }
-
-        .node-prompt {
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 12px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
         }
 
-        .audio-pill {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            padding: 8px 15px;
-            margin-top: 15px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .audio-pill i {
-            color: #A0A0FF;
-        }
-
-        /* Result Node */
-        .node-result {
-            width: 450px;
-        }
-
-        .node-result video {
+        .asset-thumb img {
             width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            height: 100%;
+            object-fit: cover;
         }
 
-        /* Connectors */
+        .btn-add-asset {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-add-asset:hover {
+            border-color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.05);
+            color: #fff;
+        }
+
+        /* Video/Audio Dropzone */
+        .media-dropzone {
+            width: 100%;
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .media-dropzone:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .media-dropzone i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .media-dropzone span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Node Connectors */
         .connector {
             width: 12px;
             height: 12px;
-            background: #4A4AFF;
-            border: 2px solid #0A0C15;
+            background: var(--accent-purple);
             border-radius: 50%;
             position: absolute;
-            transition: all 0.2s;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 3px solid #030509;
+            z-index: 10;
         }
 
         .connector-right {
-            right: -6px;
-            top: 50%;
-            transform: translateY(-50%);
+            right: -7px;
         }
 
         .connector-left {
-            left: -6px;
-            top: 50%;
-            transform: translateY(-50%);
+            left: -7px;
         }
 
-        .node-card:hover .connector {
-            transform: translateY(-50%) scale(1.5);
-            box-shadow: 0 0 15px #4A4AFF;
+        .connector-blue {
+            background: var(--accent-blue);
         }
 
-        /* Grouping Left Inputs */
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Controls Toolbar */
-        .flow-controls {
+        .btn-studio-run {
             position: fixed;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            background: rgba(15, 20, 35, 0.8);
-            backdrop-filter: blur(20px);
-            padding: 12px 24px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            z-index: 1000;
-        }
-
-        .btn-studio {
-            background: linear-gradient(135deg, #4A4AFF, #FF4AFF);
+            padding: 18px 50px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
             border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 10px 20px rgba(74, 74, 255, 0.3);
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.4);
+            z-index: 1000;
+            transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            letter-spacing: 1px;
         }
 
-        .btn-studio:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(74, 74, 255, 0.5);
-        }
-
-        .btn-save-workflow {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-save-workflow:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        /* Node Meta Tags */
-        .node-meta {
-            display: flex;
-            gap: 6px;
-            margin-top: 10px;
-        }
-
-        .meta-tag {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 9px;
-            color: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-transform: uppercase;
-        }
-
-        .node-status-bar {
-            height: 4px;
-            background: rgba(160,160,255,0.1);
-            border-radius: 2px;
-            margin-top: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .node-status-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 75%;
-            background: linear-gradient(90deg, #4A4AFF, #FF4AFF);
-            box-shadow: 0 0 10px rgba(74, 74, 255, 0.5);
-            border-radius: 2px;
+        .btn-studio-run:hover {
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.6);
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <nav class="navbar">
+    <div class="bg-canvas"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
             <a href="index.html" class="logo">VAX STUDIO</a>
             <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="studio.html">Studio Flow</a>
-                <a href="text2video.html">Text2Video</a>
-                <a href="audio2video.html">Audio2Video</a>
-                <a href="camera.html">Camera</a>
-                <a href="pose.html">Pose</a>
-                <a href="depth.html">Depth</a>
-                <a href="lora.html">LoRA</a>
-                <a href="edit.html">Edit</a>
-                <button class="btn-api" onclick="alert('🚀 API Access: Ready for integration!')">
-                    <i class="fas fa-key"></i> API Access
-                </button>
+                <a href="index.html" class="nav-link" data-page="index">Home</a>
+                <a href="studio.html" class="nav-link active" data-page="studio">Studio Flow</a>
+                <a href="text2image.html" class="nav-link" data-page="text2image">Text to Image</a>
+                <a href="image2video.html" class="nav-link" data-page="image2video">Image to Video</a>
+                <a href="colab.html" class="nav-link" data-page="colab">Colab Engine</a>
             </div>
-        </nav>
-    </div>
+            <a href="index.html#api" class="btn-api">
+                <i class="fas fa-key"></i> API Access
+            </a>
+        </div>
+    </nav>
 
     <div class="studio-canvas">
-        <!-- SVG Connections Layer -->
-        <svg class="connections-svg">
-            <!-- Left to Text -->
-            <path d="M 320 300 C 400 300, 400 450, 480 450" class="connection-line" />
-            <path d="M 320 600 C 400 600, 400 450, 480 450" class="connection-line" />
-            <!-- Text to Video Input -->
-            <path d="M 760 450 C 800 450, 800 400, 840 400" class="connection-line" />
-            <!-- Video Input to Result -->
-            <path d="M 1120 400 C 1180 400, 1180 450, 1240 450" class="connection-line" />
+        <svg class="connections-svg" id="connections-svg">
+            <!-- Drawn by JS -->
         </svg>
 
-
-
         <div class="node-container">
-            <!-- Left Group: Images -->
-            <div class="input-group">
-                <div class="node-card" style="width: 240px;">
-                    <div class="node-header">
-                        <span class="node-step">STEP 1</span>
-                        <span>IMAGE INPUT</span>
-                        <i class="fas fa-image"></i>
+            <!-- INPUT STACK -->
+            <div class="input-nodes-stack">
+                <!-- Node: Multi-Image Asset -->
+                <div class="node-card" id="node-images">
+                    <div class="node-header"><span>Images</span><span>Multi-Asset</span><i class="fas fa-images"></i>
                     </div>
                     <div class="node-content">
-                        <video autoplay loop muted controls class="node-image">
-                            <source src="workflow_step1.mp4" type="video/mp4">
-                        </video>
-                        <div class="node-meta">
-                            <span class="meta-tag">1024x1024</span>
-                            <span class="meta-tag">IMAGE SOURCE</span>
+                        <div class="image-assets-grid" id="image-assets-grid">
+                            <!-- JS will add thumbnails here -->
+                            <div class="asset-thumb" style="display:flex; align-items:center; justify-content:center; border: 1px dashed rgba(255,255,255,0.1);">
+                                <i class="fas fa-plus" style="opacity:0.2"></i>
+                            </div>
                         </div>
+                        <button class="btn-add-asset" onclick="document.getElementById('multi-img-input').click()">
+                            <i class="fas fa-upload"></i> Upload Images (Max 5)
+                        </button>
+                        <input type="file" id="multi-img-input" multiple hidden accept="image/*"
+                            onchange="handleMultiImages(this)">
                     </div>
                     <div class="connector connector-right"></div>
                 </div>
 
-                <div class="node-card" style="width: 240px;">
-                    <div class="node-header">
-                        <span class="node-step">STEP 2</span>
-                        <span>STYLE REFERENCE</span>
-                        <i class="fas fa-palette"></i>
-                    </div>
+                <!-- Node: Video Reference -->
+                <div class="node-card" id="node-video-ref">
+                    <div class="node-header"><span>Video</span><span>Reference</span><i class="fas fa-video"></i></div>
                     <div class="node-content">
-                        <video autoplay loop muted controls class="node-image">
-                            <source src="workflow_step5.mp4" type="video/mp4">
-                        </video>
-                        <div class="node-meta">
-                            <span class="meta-tag">ADAPTIVE</span>
-                            <span class="meta-tag">STYLE REF</span>
+                        <div class="media-dropzone" onclick="document.getElementById('vid-ref-input').click()">
+                            <i class="fas fa-clapperboard" style="color: var(--accent-blue);"></i>
+                            <span id="vid-ref-name">Drop Reference Video</span>
+                            <input type="file" id="vid-ref-input" hidden accept="video/*" onchange="handleVideoRef(this)">
                         </div>
                     </div>
-                    <div class="connector connector-right"></div>
-                </div>
-            </div>
-
-            <!-- Mid Group: Text & Video -->
-            <div class="input-group">
-                <div class="node-card" style="width: 320px;">
-                    <div class="node-header">
-                        <span class="node-step">STEP 3</span>
-                        <span>TEXT PROMPT</span>
-                        <i class="fas fa-keyboard"></i>
-                    </div>
-                    <div class="node-content">
-                        <div class="node-prompt">
-                            A 10-second cinematic video of a sleek domestic cat sprinting at full speed across a wide
-                            grassy field, starting with a close-up of its focused eyes and twitching whiskers, then
-                            transitioning into a slow-motion sequence showing powerful muscle movement and fur flowing
-                            with the wind, followed by a real-time chase shot from a low-angle perspective tracking
-                            alongside the cat, paws hitting the ground with precision, dirt and grass particles
-                            scattering, natural golden-hour sunlight casting warm tones and soft shadows, shallow depth
-                            of field with motion blur in the background, ultra-realistic textures,
-                        </div>
-                    </div>
-                    <div class="connector connector-left"></div>
-                    <div class="connector connector-right"></div>
+                    <div class="connector connector-right connector-blue"></div>
                 </div>
 
-                <div class="node-card" style="width: 320px;">
-                    <div class="node-header">
-                        <span class="node-step">STEP 4</span>
-                        <span>VIDEO SOURCE</span>
-                        <i class="fas fa-video"></i>
-                    </div>
+                <!-- Node: Audio Layer -->
+                <div class="node-card" id="node-audio">
+                    <div class="node-header"><span>Audio</span><span>Music / VO</span><i class="fas fa-music"></i></div>
                     <div class="node-content">
-                    <video autoplay loop muted class="node-video">
-                        <source src="workflow_step2.mp4" type="video/mp4">
-                    </video>
-                    <div class="node-meta">
-                        <span class="meta-tag">720P</span>
-                        <span class="meta-tag">24 FPS</span>
-                    </div>
-                    <div class="audio-pill">
-                            <i class="fas fa-music"></i>
-                            <span>snowfall-bells.mp3</span>
+                        <div class="media-dropzone" onclick="document.getElementById('audio-input').click()">
+                            <i class="fas fa-waveform-lines" style="color: #10B981;"></i>
+                            <span id="audio-name">Upload Background Audio</span>
+                            <input type="file" id="audio-input" hidden accept="audio/*" onchange="handleAudio(this)">
                         </div>
                     </div>
-                    <div class="connector connector-left"></div>
-                    <div class="connector connector-right"></div>
+                    <div class="connector connector-right" style="background:#10B981"></div>
                 </div>
             </div>
 
-            <div class="node-card node-result">
-                <div class="node-header">
-                    <span class="node-step" style="background: rgba(160,160,255,0.2); color: #fff;">FINAL</span>
-                    <span>STUDIO RESULT</span>
-                    <i class="fas fa-magic"></i>
+            <!-- PROCESSING UNIT -->
+            <div class="node-card" id="node-engine" style="height: 380px;">
+                <div class="node-header"><span>Core</span><span>AI Engine v3.4</span><i class="fas fa-microchip"></i>
                 </div>
                 <div class="node-content">
-                    <video autoplay loop muted controls>
-                        <source src="workflow_step3.mp4" type="video/mp4">
-                    </video>
-                    <div class="node-status-bar">
-                        <div class="node-status-fill"></div>
+                    <div class="form-group">
+                        <label class="form-label">Active Model</label>
+                        <select class="form-select" id="studio-model">
+                            <option value="cogvideox">CogVideoX-5B (HQ)</option>
+                            <option value="svd">SVD-XT (Fast)</option>
+                        </select>
                     </div>
-                    <div class="node-meta">
-                        <span class="meta-tag">GENERATING...</span>
-                        <span class="meta-tag">75%</span>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label class="form-label">Creative Prompt</label>
+                        <textarea id="studio-prompt" class="form-input" style="min-height: 120px; font-size: 12px;"
+                            placeholder="Describe how to blend assets..."></textarea>
+                    </div>
+                    <div
+                        style="margin-top: 15px; padding: 10px; background: rgba(139,92,246,0.05); border-radius: 8px; font-size: 10px; color: var(--text-secondary);">
+                        <i class="fas fa-info-circle"></i> Blending multiple images with video reference.
+                    </div>
+                </div>
+                <div class="connector connector-left"></div>
+                <div class="connector connector-right"></div>
+            </div>
+
+            <!-- RESULT NODE -->
+            <div class="node-card" id="node-result" style="width: 400px;">
+                <div class="node-header"><span>Output</span><span>Final Cinematic</span><i class="fas fa-play"></i>
+                </div>
+                <div class="node-content">
+                    <div id="result-ph"
+                        style="aspect-ratio:16/9; background:rgba(0,0,0,0.4); border-radius:12px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.05)">
+                        <div style="text-align:center">
+                            <i class="fas fa-film fa-3x" style="margin-bottom:15px; display:block"></i>
+                            <span style="font-size:12px; font-weight:600">Awaiting Pipeline...</span>
+                        </div>
+                    </div>
+                    <video id="result-vid" style="width:100%; border-radius:12px; display:none" controls></video>
+
+                    <div id="studio-progress-box" style="display:none; margin-top:20px;">
+                        <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px;">
+                            <span id="st-status">Processing...</span>
+                            <span id="st-pct">0%</span>
+                        </div>
+                        <div style="height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden">
+                            <div id="studio-progress-fill"
+                                style="width:0%; height:100%; background:linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); transition:0.3s">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="studio-download" style="display:none; margin-top:20px;">
+                        <a href="#" id="st-dl-link" download class="btn-api" style="display:block; text-align:center; text-decoration:none;">
+                            <i class="fas fa-download"></i> Download Master Video
+                        </a>
                     </div>
                 </div>
                 <div class="connector connector-left"></div>
@@ -459,19 +372,170 @@
         </div>
     </div>
 
-    <div class="flow-controls">
-        <button class="btn-studio" onclick="alert('Studio Processing Started!')">
-            <i class="fas fa-play"></i> RUN FLOW
-        </button>
-        <button class="btn-save-workflow">
-            <i class="fas fa-save"></i> SAVE WORKFLOW
-        </button>
-    </div>
+    <button class="btn-studio-run" onclick="runStudioFlow(event)">
+        <i class="fas fa-bolt"></i> EXECUTE PIPELINE
+    </button>
 
-    <!-- Background Glow -->
-    <div class="bg-glow bg-glow-1"
-        style="width: 800px; height: 800px; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05;">
-    </div>
+    <script>
+        const API = 'http://127.0.0.1:8000';
+        let studioAssets = {
+            images: [],
+            video: null,
+            audio: null
+        };
+
+        // Handle Multiple Images
+        function handleMultiImages(input) {
+            const files = Array.from(input.files).slice(0, 5);
+            const grid = document.getElementById('image-assets-grid');
+            grid.innerHTML = '';
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    studioAssets.images.push(e.target.result.split(',')[1]);
+                    const thumb = document.createElement('div');
+                    thumb.className = 'asset-thumb';
+                    thumb.innerHTML = `<img src="${e.target.result}">`;
+                    grid.appendChild(thumb);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Handle Video Reference
+        function handleVideoRef(input) {
+            const file = input.files[0];
+            if (!file) return;
+            document.getElementById('vid-ref-name').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                studioAssets.video = e.target.result.split(',')[1];
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle Audio
+        function handleAudio(input) {
+            const file = input.files[0];
+            if (!file) return;
+            document.getElementById('audio-name').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                studioAssets.audio = e.target.result.split(',')[1];
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function runStudioFlow(event) {
+            if (event) event.preventDefault();
+            if (studioAssets.images.length === 0) { alert('Upload setidaknya satu gambar!'); return; }
+
+            const btn = document.querySelector('.btn-studio-run');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PIPELINE RUNNING...';
+
+            document.getElementById('studio-progress-box').style.display = 'block';
+            document.getElementById('result-vid').style.display = 'none';
+            document.getElementById('result-ph').style.display = 'flex';
+            document.getElementById('studio-download').style.display = 'none';
+
+            // Payload complex supporting multi-assets
+            const payload = {
+                image_base64: studioAssets.images[0], // Primary image
+                images_extra: studioAssets.images.slice(1), // Extra images
+                video_ref: studioAssets.video,
+                audio_ref: studioAssets.audio,
+                model: document.getElementById('studio-model').value,
+                prompt: document.getElementById('studio-prompt').value,
+                num_frames: 25
+            };
+
+            try {
+                const res = await fetch(`${API}/jobs/generate_video`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.job_id) {
+                    localStorage.setItem('active_studio_job', data.job_id);
+                    pollStudioStatus(data.job_id);
+                }
+            } catch (e) {
+                alert('Pipeline Error: ' + e.message);
+                resetStudioUI();
+            }
+        }
+
+        function pollStudioStatus(id) {
+            const timer = setInterval(async () => {
+                try {
+                    const res = await fetch(`${API}/jobs/status/${id}`);
+                    const data = await res.json();
+                    const pct = data.progress || 0;
+                    document.getElementById('studio-progress-fill').style.width = pct + '%';
+                    document.getElementById('st-pct').textContent = pct + '%';
+                    document.getElementById('st-status').textContent = data.status === 'processing' ? 'Generating Content...' : 'Finalizing...';
+
+                    if (data.status === 'done') {
+                        clearInterval(timer);
+                        const vid = document.getElementById('result-vid');
+                        const url = `${API}${data.video_url}`;
+                        vid.src = url;
+                        vid.style.display = 'block';
+                        document.getElementById('result-ph').style.display = 'none';
+                        document.getElementById('studio-download').style.display = 'block';
+                        document.getElementById('st-dl-link').href = url;
+                        localStorage.removeItem('active_studio_job');
+                        resetStudioUI();
+                    } else if (data.status === 'failed') {
+                        clearInterval(timer);
+                        alert('Pipeline Failed: ' + data.error);
+                        localStorage.removeItem('active_studio_job');
+                        resetStudioUI();
+                    }
+                } catch { }
+            }, 3000);
+        }
+
+        function resetStudioUI() {
+            const btn = document.querySelector('.btn-studio-run');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-bolt"></i> EXECUTE PIPELINE';
+            document.getElementById('studio-progress-box').style.display = 'none';
+        }
+
+        // Complex Connections Drawing
+        function drawConnections() {
+            const svg = document.getElementById('connections-svg');
+            svg.innerHTML = `
+                <!-- Lines from inputs to engine -->
+                <path d="M 450 330 C 550 330, 550 450, 650 450" class="connection-line"/>
+                <path d="M 450 520 C 550 520, 550 450, 650 450" class="connection-line"/>
+                <path d="M 450 710 C 550 710, 550 450, 650 450" class="connection-line"/>
+                
+                <!-- Line from engine to result -->
+                <path d="M 970 450 C 1050 450, 1050 450, 1100 450" class="connection-line"/>
+            `;
+        }
+        window.onload = () => {
+            drawConnections();
+            
+            // Auto-Resume logic
+            const savedJob = localStorage.getItem('active_studio_job');
+            if (savedJob) {
+                console.log("Resuming Studio Job:", savedJob);
+                document.getElementById('studio-progress-box').style.display = 'block';
+                const btn = document.querySelector('.btn-studio-run');
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> RESUMING PIPELINE...';
+                pollStudioStatus(savedJob);
+            }
+
+            window.addEventListener('resize', drawConnections);
+        };
+    </script>
 </body>
 
 </html>

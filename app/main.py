@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
 from app.core.database import engine, Base
 from app.controller import job_controller, model_controller
+from app.core.monitor import monitor
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,8 +15,12 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         # PENTING: Untuk production disarankan pakai Alembic untuk migration
         await conn.run_sync(Base.metadata.create_all)
+    
+    # Mulai monitor statistik di terminal
+    monitor.start()
     yield
     # Cleanup saat shutdown
+    monitor.stop()
     await engine.dispose()
 
 app = FastAPI(
@@ -59,6 +64,6 @@ if __name__ == "__main__":
         "app.main:app",
         host=settings.HOST,
         port=settings.PORT,
-        reload=False,
+        reload=True,
         workers=1,
     )
