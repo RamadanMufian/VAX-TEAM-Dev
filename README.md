@@ -55,7 +55,7 @@ graph LR
 
 ### 2. Google Colab Setup
 1.  Open the provided notebook link in Google Colab.
-2.  Paste the latest **VAX Engine v3.4** code (from `app/model/setup_environment.py`) into a cell.
+2.  Paste the latest **VAX Engine v1.3** code (from `app/model/setup_environment.py`) into a cell.
 3.  Run the cell and wait for the `🚀 ENGINE READY! URL: https://xxxx.ngrok-free.app` message.
 4.  Copy that URL and update the `COLAB_API_URL` in your local `.env` file.
 
